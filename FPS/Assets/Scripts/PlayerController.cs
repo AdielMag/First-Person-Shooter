@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [HideInInspector]
     public bool aim, fire, reload; // Commands states.
-
+    bool attachmentMenu;
 
     #region Camera Rotation Variables
 
@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Walking Varaibles
+    [Header("Movement Variables")]
     public float speedSmoothMultiplier = 7;
     public float walkSpeed = 2, runSpeed = 6;
     float currentSpeed, targetSpeed;
@@ -148,22 +149,46 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInput()
     {
-        if (weaponIsEquiped)
+        if (Input.GetKeyDown(KeyCode.N))
         {
-            aim = Input.GetMouseButton(1) && !reload ? true : false;
-            fire = Input.GetMouseButton(0) && !reload ? true : false;
-            reload = Input.GetKey(KeyCode.R) && ammoCount != maxAmmo ? true : reload ? true : false;
+            if (weaponIsEquiped)
+            {
+                attachmentMenu = !attachmentMenu;
+                anim.SetBool("AttachmentsMenu", attachmentMenu);
+
+                if (attachmentMenu)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
+                else
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
+            }
         }
 
-        yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-        pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+        if (!attachmentMenu)
+        {
+            if (Input.GetMouseButtonUp(0)) pulledTrigger = false; // Used for FireMode.Single - to check if lifted the mouseButton.
+            if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(true, mainWeapon);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(false, secondaryWeapon);
 
-        if (Input.GetMouseButtonUp(0)) pulledTrigger = false;
-        if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(true, mainWeapon);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(false, secondaryWeapon);
+            yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
+            pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+            isRunning = aim ? false : Input.GetKey(KeyCode.LeftShift) ? true : false;
+
+            if (weaponIsEquiped)
+            {
+                aim = Input.GetMouseButton(1) && !reload ? true : false;
+                fire = Input.GetMouseButton(0) && !reload ? true : false;
+                reload = Input.GetKey(KeyCode.R) && ammoCount != maxAmmo ? true : reload ? true : false;
+            }
+        }
 
         movingInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        isRunning = aim ? false : Input.GetKey(KeyCode.LeftShift) ? fire ? false : true : false;
 
     }
 

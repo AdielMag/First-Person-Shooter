@@ -14,4 +14,10 @@ public class Weapon : MonoBehaviour
     [Header("Need to be EXACTLY the same as the one in 'ObjectPooler'")]
     public string muzzleFlash;
     public string bulletImpact;
+
+    [Header("Attachments")]
+    public GameObject scope;
+    public GameObject silencer;
+    public GameObject torch;
+    public GameObject grip;
 }
