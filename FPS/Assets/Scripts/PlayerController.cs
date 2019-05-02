@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(false, secondaryWeapon);
 
         movingInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        isRunning = aim ? false : Input.GetKey(KeyCode.LeftShift) ? true : false;
+        isRunning = aim ? false : Input.GetKey(KeyCode.LeftShift) ? fire ? false : true : false;
 
     }
 

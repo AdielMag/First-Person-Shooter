@@ -179,7 +179,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Pistol_Police_NoAim_Fire
-  m_Speed: 6
+  m_Speed: 8
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8227246186307837945}
@@ -271,9 +271,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.08
-  m_TransitionOffset: 0.48
-  m_ExitTime: 1
+  m_TransitionDuration: 0.05
+  m_TransitionOffset: 0.5716168
+  m_ExitTime: 0.9910929
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -453,7 +453,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f3ec056e012a86846bf47dba5160359d, type: 2}
+    m_Motion: {fileID: 7400000, guid: 8eaae1fa853184b46b568648e2925d20, type: 2}
     m_Threshold: 3
     m_Position: {x: 0, y: 0}
     m_TimeScale: 3.5
@@ -461,7 +461,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: e322b85ae91ee1e4eb911cac8c866f90, type: 2}
+    m_Motion: {fileID: 7400000, guid: dc8bd65cef14e034e956da59862efa39, type: 2}
     m_Threshold: 6
     m_Position: {x: 0, y: 0}
     m_TimeScale: 3
@@ -551,7 +551,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Pistol_Police_Aim_Fire
-  m_Speed: 5
+  m_Speed: 8
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4534058846834531280}
@@ -1063,18 +1063,18 @@ BlendTree:
     m_DirectBlendParameter: Vertical
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 0}
-    m_Threshold: 1
+    m_Motion: {fileID: 7400000, guid: b6597467bd2840748948a4a285867a94, type: 2}
+    m_Threshold: 2
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
+    m_TimeScale: 3.5
     m_CycleOffset: 0
     m_DirectBlendParameter: Vertical
     m_Mirror: 0
   m_BlendParameter: Vertical
   m_BlendParameterY: Vertical
   m_MinThreshold: 0
-  m_MaxThreshold: 1
-  m_UseAutomaticThresholds: 1
+  m_MaxThreshold: 2
+  m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
 --- !u!1102 &7342352782239566359
@@ -1205,7 +1205,7 @@ AnimatorStateMachine:
     m_Position: {x: 830, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1508631266830623768}
-    m_Position: {x: 500, y: 260, z: 0}
+    m_Position: {x: 490, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7342352782239566359}
     m_Position: {x: 650, y: 160, z: 0}
