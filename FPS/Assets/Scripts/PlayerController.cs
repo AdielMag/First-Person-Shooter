@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [HideInInspector]
     public bool aim, fire, reload; // Commands states.
-    
+
 
     #region Camera Rotation Variables
 
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float mouseSensitivity = 2;
 
     Vector3 rotationSmoothVelocity; // Used for SmoothDamp function.
-    Vector3 cameraCurrentRotation;  
+    Vector3 cameraCurrentRotation;
     Vector3 meshCurrentRotation;    // diffrent rotation for swivel - same roation as the camera but a bit slower.
 
     float pitch, yaw;
@@ -32,10 +32,14 @@ public class PlayerController : MonoBehaviour
     Ray weaponRay;       // Used for raycasting from the weapon to check near obstacles.
 
     public bool weaponIsEquiped;
+    public Weapon.FireMode weaponFireModes;
+    Weapon.FireMode currentFireMode;    // single fire or automatic - if can.
+    bool pulledTrigger;                 // Shot Once - used to check for single fire.
+
     int mainWeapon = 1, secondaryWeapon = 2;
     [HideInInspector]
     public string muzzleFlash, bulletImpact;
-    public Transform weaponSlot; 
+    public Transform weaponSlot;
     [HideInInspector]
     public GameObject[] weapons;
     [HideInInspector]
@@ -43,11 +47,20 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Walking Varaibles
-    Vector2 input;
+    public float speedSmoothMultiplier = 7;
+    public float walkSpeed = 2, runSpeed = 6;
+    float currentSpeed, targetSpeed;
+
+    Vector3 movingInput;
+    bool isRunning;
+
+    Vector3 movingDirection;
+
     #endregion
 
     Animator anim;
     Transform camera;
+    Rigidbody rgb;
     Camera playerCamera;
     ObjectPooler objPooler;
 
@@ -55,13 +68,14 @@ public class PlayerController : MonoBehaviour
     static public PlayerController instance;
     private void Awake()
     {
-        instance = this;   
+        instance = this;
     }
     #endregion
 
     void Start()
     {
         anim = GetComponent<Animator>();
+        rgb = GetComponent<Rigidbody>();
         camera = transform.GetChild(0);
         playerCamera = camera.GetComponent<Camera>();
         objPooler = ObjectPooler.instance;
@@ -73,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
         // Make array with al lthe weapons.
         weapons = new GameObject[weaponSlot.childCount];
-        for(int i =0; i < weaponSlot.childCount; i++)
+        for (int i = 0; i < weaponSlot.childCount; i++)
         {
             weapons[i] = weaponSlot.GetChild(i).gameObject;
         }
@@ -81,24 +95,55 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        HandleCameraRotation();
         HandleInput();
-
-        // Player movement!
+        HandleCameraRotation();
+        PlayerMovement();
 
         // Fire rate
         if (fire)
-        {
-            if (lastTimeShot < Time.time)
-                lastTimeShot = Time.time + (.6f / fireRate);
-            else
-                fire = false;
+        { switch (currentFireMode)
+            {
+                case Weapon.FireMode.Automatic:
+                    if (lastTimeShot < Time.time)
+                        lastTimeShot = Time.time + (.6f / fireRate);
+                    else
+                        fire = false;
+                    break;
+                case Weapon.FireMode.Burst:
+                    // Currently not doing anything.
+                    break;
+                case Weapon.FireMode.Single:
+                    if (pulledTrigger)
+                        fire = false;
+                    break;
+            }
         }
 
         anim.SetBool("Aim", aim);
         anim.SetBool("Fire", fire);
         anim.SetBool("Reload", reload);
+        anim.SetFloat("Vertical", currentSpeed);
+    }
 
+    private void PlayerMovement()
+    {
+        // If there's input for moving.
+        if (movingInput != Vector3.zero)
+        {
+            targetSpeed = isRunning ? runSpeed : walkSpeed;
+        }
+        else
+        {
+            targetSpeed = 0;
+        }
+
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedSmoothMultiplier);
+
+        // Direction relative to camera.
+        movingDirection = camera.TransformVector(movingInput);
+        movingDirection.y = 0;
+
+        rgb.velocity = movingDirection * currentSpeed;
     }
 
     private void HandleInput()
@@ -107,17 +152,24 @@ public class PlayerController : MonoBehaviour
         {
             aim = Input.GetMouseButton(1) && !reload ? true : false;
             fire = Input.GetMouseButton(0) && !reload ? true : false;
-            reload = Input.GetKey(KeyCode.R) && ammoCount != maxAmmo ? true : (reload) ? true : false;
+            reload = Input.GetKey(KeyCode.R) && ammoCount != maxAmmo ? true : reload ? true : false;
         }
 
+        yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
+        pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        if (Input.GetMouseButtonUp(0)) pulledTrigger = false;
         if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(true, mainWeapon);
         if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(false, secondaryWeapon);
+
+        movingInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        isRunning = aim ? false : Input.GetKey(KeyCode.LeftShift) ? true : false;
+
     }
 
     private void HandleCameraRotation()
     {
-        yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-        pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+        
 
         // Clamp pitch.
         pitch = Mathf.Clamp(pitch, -40, 55);
@@ -126,16 +178,17 @@ public class PlayerController : MonoBehaviour
         cameraCurrentRotation = Vector3.SmoothDamp(cameraCurrentRotation, new Vector3(pitch, yaw), ref rotationSmoothVelocity, cameraRotationSpeed);
         camera.eulerAngles = cameraCurrentRotation;
 
+        // Set orientation for hands (to swivel):
         meshCurrentRotation = Vector3.Lerp(meshCurrentRotation, cameraCurrentRotation, Time.deltaTime * 30);
         camera.transform.GetChild(0).eulerAngles = meshCurrentRotation;
-
-        // transform.eulerAngles = new Vector3(-pitch, yaw, 0f);
     }
 
     public void Fire()
     {
         if (!weaponIsEquiped)
             return;
+
+        pulledTrigger = true;
 
         // Handle ammo and reloading
         if (ammoCount > 1)
@@ -187,13 +240,17 @@ public class PlayerController : MonoBehaviour
     {
         weaponNumTag -= 1;
 
-        weapons[weaponNumTag].gameObject.SetActive(true);
-        weaponMuzzle = weapons[weaponNumTag].transform.GetChild(0);
+        Weapon equippedWeapon = weapons[weaponNumTag].GetComponent<Weapon>();
 
-        muzzleFlash = weapons[weaponNumTag].GetComponent<Weapon>().muzzleFlash;
-        bulletImpact = weapons[weaponNumTag].GetComponent<Weapon>().bulletImpact;
-        fireRate = weapons[weaponNumTag].GetComponent<Weapon>().fireRate;
+        equippedWeapon.gameObject.SetActive(true);
+        weaponMuzzle = equippedWeapon.transform.GetChild(0);
 
+        muzzleFlash = equippedWeapon.muzzleFlash;
+        bulletImpact = equippedWeapon.bulletImpact;
+        fireRate = equippedWeapon.fireRate;
+
+        weaponFireModes = equippedWeapon.capableFireModes;
+        currentFireMode = weaponFireModes;
     }
     public void UnequipWeapon(int weaponNumTag)
     {
