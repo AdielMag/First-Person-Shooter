@@ -4428,9 +4428,8 @@ GameObject:
   - component: {fileID: 1241912754}
   - component: {fileID: 1241912756}
   - component: {fileID: 1241912755}
-  - component: {fileID: 1241912757}
   m_Layer: 5
-  m_Name: Pistol
+  m_Name: SecondaryWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4468,8 +4467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4492,25 +4491,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241912753}
   m_CullTransparentMesh: 0
---- !u!114 &1241912757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241912753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1243782706
 GameObject:
   m_ObjectHideFlags: 0
@@ -4779,6 +4759,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1542356791248099049, guid: 5e41505804200314f8239458ca194166,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 428132, guid: 5e41505804200314f8239458ca194166, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.00000008115521
@@ -4907,11 +4892,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1542356791248099049, guid: 5e41505804200314f8239458ca194166,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6808142480690444183, guid: 5e41505804200314f8239458ca194166,
         type: 3}
@@ -5158,6 +5138,7 @@ MonoBehaviour:
   aim: 0
   fire: 0
   reload: 0
+  attachmentMenu: 0
   cameraRotationSpeed: 0.14
   mouseSensitivity: 2
   ammoCount: 0
@@ -5215,6 +5196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ef7bff27e6cb8419bf0e9e4972bd5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainWeaponMiddlePoint: {fileID: 0}
+  secondaryWeaponMiddlePoint: {fileID: 1241912754}
 --- !u!4 &1730960582 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 418892, guid: cda897b14cb956e4ea1e58ed4d431788,

@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     [HideInInspector]
     public bool aim, fire, reload; // Commands states.
-    bool attachmentMenu;
+    [HideInInspector]
+    public bool attachmentMenu;
 
     #region Camera Rotation Variables
 
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rgb;
     Camera playerCamera;
     ObjectPooler objPooler;
+    WeaponAttachmentManager wAtchMnu;
 
     #region Singelton
     static public PlayerController instance;
@@ -80,6 +82,7 @@ public class PlayerController : MonoBehaviour
         camera = transform.GetChild(0);
         playerCamera = camera.GetComponent<Camera>();
         objPooler = ObjectPooler.instance;
+        wAtchMnu = GetComponent<WeaponAttachmentManager>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
