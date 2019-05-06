@@ -25,10 +25,7 @@ public class WeaponAttachmentManager : MonoBehaviour
     }
 
     private void Update()
-    {
-
-        // Enable and disable the menu on entering the mode...
-
+    { 
         if (!pCon.attachmentMenu)
             return;
 

@@ -4669,7 +4669,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 184040, guid: 5e41505804200314f8239458ca194166, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 474350, guid: 5e41505804200314f8239458ca194166, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4718,6 +4718,31 @@ PrefabInstance:
     - target: {fileID: 730289937, guid: 5e41505804200314f8239458ca194166, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412768838240144096, guid: 5e41505804200314f8239458ca194166,
+        type: 3}
+      propertyPath: attachmentType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638673531148117491, guid: 5e41505804200314f8239458ca194166,
+        type: 3}
+      propertyPath: attachmentType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638673531148117491, guid: 5e41505804200314f8239458ca194166,
+        type: 3}
+      propertyPath: scopeOffset
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638673531148117491, guid: 5e41505804200314f8239458ca194166,
+        type: 3}
+      propertyPath: ScopeNumTag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315166018492156559, guid: 5e41505804200314f8239458ca194166,
+        type: 3}
+      propertyPath: attachmentType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e41505804200314f8239458ca194166, type: 3}

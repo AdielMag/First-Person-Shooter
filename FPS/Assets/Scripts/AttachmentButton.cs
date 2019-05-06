@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class AttachmentButton : MonoBehaviour
 {
+    public enum AttachmentType {Muzzle,Scope,Grip}
+    public float ScopeNumTag;
+    public AttachmentType attachmentType;
     public GameObject attachment;
 
     Animator anim;
+    PlayerController pCon;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
+        pCon = PlayerController.instance;
     }
 
     public void Equip_UnEquip() 
@@ -18,6 +23,7 @@ public class AttachmentButton : MonoBehaviour
         // Check if the object is enabled. if so - disable it.
         if (attachment.activeInHierarchy)
         {
+            HandleAttachmentTypeChanges(false);
             attachment.SetActive(false);
             anim.SetBool("Enabled", false);
         }
@@ -40,6 +46,39 @@ public class AttachmentButton : MonoBehaviour
             // Turn this animator bool on.
             anim.SetBool("Enabled", true);
 
+            HandleAttachmentTypeChanges(true);
+        }
+    }
+
+    void HandleAttachmentTypeChanges(bool enable) 
+    {
+        if (enable) 
+        {
+            switch (attachmentType) 
+            {
+                case AttachmentType.Muzzle:
+                    pCon.weaponMuzzle = attachment.transform.GetChild(0);
+                    break;
+                case AttachmentType.Scope:
+                    pCon.GetComponent<Animator>().SetFloat("Scope", ScopeNumTag);
+                    break;
+                case AttachmentType.Grip:
+                    break;
+            }
+        }
+        else 
+        {
+            switch (attachmentType)
+            {
+                case AttachmentType.Muzzle:
+                    pCon.weaponMuzzle = PlayerController.instance.currentWeapon.transform.GetChild(0);
+                    break;
+                case AttachmentType.Scope:
+                    pCon.GetComponent<Animator>().SetFloat("Scope", 0);
+                    break;
+                case AttachmentType.Grip:
+                    break;
+            }
         }
     }
 

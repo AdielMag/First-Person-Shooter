@@ -284,7 +284,9 @@ public class PlayerController : MonoBehaviour
     }
     public void UnequipWeapon(int weaponNumTag)
     {
-        currentWeapon.gameObject.SetActive(false);
+        foreach (GameObject weapon in weapons)
+            weapon.SetActive(false);
+
         weaponMuzzle = null;
     }
 }
