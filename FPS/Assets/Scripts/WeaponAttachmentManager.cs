@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using System.Collections;
 
 public class WeaponAttachmentManager : MonoBehaviour
 {
@@ -23,17 +21,18 @@ public class WeaponAttachmentManager : MonoBehaviour
 
      //  mainWeaponEdges = new Vector2(mainWeaponMiddlePoint.rect.width / 2, mainWeaponMiddlePoint.rect.height / 2);
         secondaryWeaponEdges =  new Vector2(secondaryWeaponMiddlePoint.rect.width / 2, secondaryWeaponMiddlePoint.rect.height / 2);
+
     }
 
     private void Update()
     {
+
+        // Enable and disable the menu on entering the mode...
+
         if (!pCon.attachmentMenu)
             return;
 
         HandleWeaponRotation();
-        // The attachemnt menu! (by the atachments that can be attached - check in weapon script)
-        // Change deapth Of Field! - post proccecing thingy
- 
     }
 
     public void HandleWeaponRotation()
@@ -47,5 +46,36 @@ public class WeaponAttachmentManager : MonoBehaviour
         anim.SetFloat("AttachmentMenuX", targetNormalizedPos.x);
         anim.SetFloat("AttachmentMenuY", targetNormalizedPos.y);
 
+    }
+    
+    public void OpenAttachmentMenu() 
+    {
+        pCon.currentWeapon.transform.GetChild(pCon.currentWeapon.transform.childCount - 1).gameObject.SetActive(true);
+
+        AttachmentButton[] attachmentButtons = pCon.currentWeapon.GetComponentsInChildren<AttachmentButton>();
+
+        for (int i = 0; i < attachmentButtons.Length; i++)
+        {
+            attachmentButtons[i].CheckIfEnabled();
+        }
+    }
+
+    public void CloseAttachmentMenu()
+    {
+        StartCoroutine(CloseAndWaitAtttachmentMenu());
+    }
+
+    IEnumerator CloseAndWaitAtttachmentMenu()
+    {
+        Animator[] attachmentButtons = pCon.currentWeapon.GetComponentsInChildren<Animator>();
+
+        for (int i = 0; i < attachmentButtons.Length; i++)
+        {
+            attachmentButtons[i].SetTrigger("FadeOut");
+        }
+
+        yield return new WaitForSeconds(.5f);
+        pCon.currentWeapon.transform.GetChild(pCon.currentWeapon.transform.childCount - 1).gameObject.SetActive(false);
+        yield break;
     }
 }

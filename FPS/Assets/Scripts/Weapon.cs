@@ -15,9 +15,6 @@ public class Weapon : MonoBehaviour
     public string muzzleFlash;
     public string bulletImpact;
 
-    [Header("Attachments")]
-    public GameObject scope;
-    public GameObject silencer;
-    public GameObject torch;
-    public GameObject grip;
+    [Header("Attachments Menu")]
+    public GameObject attachmentMenu;
 }

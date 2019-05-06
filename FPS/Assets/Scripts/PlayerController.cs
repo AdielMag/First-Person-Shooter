@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     Weapon.FireMode currentFireMode;    // single fire or automatic - if can.
     bool pulledTrigger;                 // Shot Once - used to check for single fire.
 
+    [HideInInspector]
+    public Weapon currentWeapon;
     int mainWeapon = 1, secondaryWeapon = 2;
     [HideInInspector]
     public string muzzleFlash, bulletImpact;
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rgb;
     Camera playerCamera;
     ObjectPooler objPooler;
-    WeaponAttachmentManager wAtchMnu;
+    WeaponAttachmentManager weaponAttachM;
 
     #region Singelton
     static public PlayerController instance;
@@ -82,7 +84,7 @@ public class PlayerController : MonoBehaviour
         camera = transform.GetChild(0);
         playerCamera = camera.GetComponent<Camera>();
         objPooler = ObjectPooler.instance;
-        wAtchMnu = GetComponent<WeaponAttachmentManager>();
+        weaponAttachM = GetComponent<WeaponAttachmentManager>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -127,6 +129,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Fire", fire);
         anim.SetBool("Reload", reload);
         anim.SetFloat("Vertical", currentSpeed);
+        anim.SetBool("AttachmentsMenu", attachmentMenu);
+
     }
 
     private void PlayerMovement()
@@ -157,7 +161,6 @@ public class PlayerController : MonoBehaviour
             if (weaponIsEquiped)
             {
                 attachmentMenu = !attachmentMenu;
-                anim.SetBool("AttachmentsMenu", attachmentMenu);
 
                 if (attachmentMenu)
                 {
@@ -197,7 +200,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCameraRotation()
     {
-        
 
         // Clamp pitch.
         pitch = Mathf.Clamp(pitch, -40, 55);
@@ -207,7 +209,7 @@ public class PlayerController : MonoBehaviour
         camera.eulerAngles = cameraCurrentRotation;
 
         // Set orientation for hands (to swivel):
-        meshCurrentRotation = Vector3.Lerp(meshCurrentRotation, cameraCurrentRotation, Time.deltaTime * 30);
+        meshCurrentRotation = Vector3.Lerp(meshCurrentRotation, cameraCurrentRotation, Time.deltaTime * 25);
         camera.transform.GetChild(0).eulerAngles = meshCurrentRotation;
     }
 
@@ -261,6 +263,7 @@ public class PlayerController : MonoBehaviour
         else
             secondaryWeapon = weaponNumTag;
 
+        currentWeapon = weapons[weaponNumTag - 1].GetComponent<Weapon>();
         anim.SetInteger("WeaponNumTag", weaponNumTag);
     }
 
@@ -268,21 +271,20 @@ public class PlayerController : MonoBehaviour
     {
         weaponNumTag -= 1;
 
-        Weapon equippedWeapon = weapons[weaponNumTag].GetComponent<Weapon>();
 
-        equippedWeapon.gameObject.SetActive(true);
-        weaponMuzzle = equippedWeapon.transform.GetChild(0);
+        currentWeapon.gameObject.SetActive(true);
+        weaponMuzzle = currentWeapon.transform.GetChild(0);
 
-        muzzleFlash = equippedWeapon.muzzleFlash;
-        bulletImpact = equippedWeapon.bulletImpact;
-        fireRate = equippedWeapon.fireRate;
+        muzzleFlash = currentWeapon.muzzleFlash;
+        bulletImpact = currentWeapon.bulletImpact;
+        fireRate = currentWeapon.fireRate;
 
-        weaponFireModes = equippedWeapon.capableFireModes;
+        weaponFireModes = currentWeapon.capableFireModes;
         currentFireMode = weaponFireModes;
     }
     public void UnequipWeapon(int weaponNumTag)
     {
-        weapons[weaponNumTag - 1].gameObject.SetActive(false);
+        currentWeapon.gameObject.SetActive(false);
         weaponMuzzle = null;
     }
 }
