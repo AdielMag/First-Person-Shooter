@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     Ray middleScreenRay; // Used for raycasting from middle of the screen.
     Ray weaponRay;       // Used for raycasting from the weapon to check near obstacles.
+    float spread , maxSpread = 10f; // maxSpread is based on animation! - be carefull.
 
     public bool weaponIsEquiped;
     public Weapon.FireMode weaponFireModes;
@@ -106,9 +107,7 @@ public class PlayerController : MonoBehaviour
         HandleInput();
         HandleCameraRotation();
         PlayerMovement();
-
-        crossHair.GetInput(new Vector2(yaw, -pitch).magnitude, movingInput.magnitude);
-
+        
         // Fire rate
         if (fire)
         { switch (currentFireMode)
@@ -236,13 +235,19 @@ public class PlayerController : MonoBehaviour
         // Handle raycasting
         middleScreenRay = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
+        spread = (maxSpread / 10) * crossHair.CurrentSpread;
+
+        // Rotate fire direction by spread.
+        middleScreenRay.direction = Quaternion.AngleAxis(Random.Range(-spread,spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * camera.forward;
+
         objPooler.SpawnFromPool(muzzleFlash, weaponMuzzle.rotation, Vector3.zero, weaponMuzzle);
 
         if (Physics.Raycast(middleScreenRay, out RaycastHit hit))
         {
             // Cast a ray to see if their is an obstacle near the weapon - if there is one, shoot that!
             weaponRay = new Ray(weaponMuzzle.position, weaponMuzzle.forward);
-            
+            weaponRay.direction = Quaternion.AngleAxis(Random.Range(-spread, spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * weaponMuzzle.forward;
+
             if (Physics.Raycast(weaponRay, out RaycastHit newHit, 3))
                 objPooler.SpawnFromPool(bulletImpact, newHit.point, Quaternion.identity);
             else

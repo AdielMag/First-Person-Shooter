@@ -6,7 +6,9 @@ public class CrossHair : MonoBehaviour
 {
     public float spreadSensetivity, spreadSpeedMultiplier;
     float fireSpeedMultiplier;
-    float currentSpread, targetSpread;
+    float targetSpread;
+
+    public float CurrentSpread { get; private set; }
 
     float cameraRotationVelocity, movementVelocity;
 
@@ -35,17 +37,15 @@ public class CrossHair : MonoBehaviour
 
         fireSpeedMultiplier = Mathf.Lerp(fireSpeedMultiplier, 1, Time.deltaTime * 100);
         targetSpread = Mathf.Lerp(targetSpread, 0, Time.deltaTime * spreadSpeedMultiplier * fireSpeedMultiplier);
-        currentSpread = Mathf.Lerp(currentSpread, targetSpread, Time.deltaTime * spreadSensetivity);
+        CurrentSpread = Mathf.Lerp(CurrentSpread, targetSpread, Time.deltaTime * spreadSensetivity);
 
-        anim.SetFloat("Spread", currentSpread);
+        anim.SetFloat("Spread", CurrentSpread);
     }
 
     public void GetInput(float cameraRotationInput, float movementInput)
     {
         cameraRotationVelocity = cameraRotationInput;
-         //new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")).magnitude;
         movementVelocity = movementInput;
-         //new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).magnitude;
     }
 
     public void AddSpread(float amount)
