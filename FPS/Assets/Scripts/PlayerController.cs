@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
     Camera playerCamera;
     ObjectPooler objPooler;
     WeaponAttachmentManager weaponAttachM;
+    CrossHair crossHair;
 
     #region Singelton
     static public PlayerController instance;
@@ -85,6 +86,7 @@ public class PlayerController : MonoBehaviour
         playerCamera = camera.GetComponent<Camera>();
         objPooler = ObjectPooler.instance;
         weaponAttachM = GetComponent<WeaponAttachmentManager>();
+        crossHair = CrossHair.instance;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -104,6 +106,8 @@ public class PlayerController : MonoBehaviour
         HandleInput();
         HandleCameraRotation();
         PlayerMovement();
+
+        crossHair.GetInput(new Vector2(yaw, -pitch).magnitude, movingInput.magnitude);
 
         // Fire rate
         if (fire)
@@ -177,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
         if (!attachmentMenu)
         {
-            if (Input.GetMouseButtonUp(0)) pulledTrigger = false; // Used for FireMode.Single - to check if lifted the mouseButton.
+            if (!Input.GetMouseButton(0)) pulledTrigger = false;    // Used for FireMode.Single - to check if lifted the mouseButton.
             if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(true, mainWeapon);
             if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(false, secondaryWeapon);
 
@@ -244,6 +248,8 @@ public class PlayerController : MonoBehaviour
             else
                 objPooler.SpawnFromPool(bulletImpact, hit.point, Quaternion.identity);
         }
+
+        crossHair.AddSpread(5);
     }
 
     public void Reload()
