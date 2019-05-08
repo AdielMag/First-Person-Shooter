@@ -32,9 +32,6 @@ public class CrossHair : MonoBehaviour
 
     void Update()
     {
-        GetInput(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")).magnitude
-            ,new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).magnitude);
-
         targetSpread += targetSpread > 2.5f ? cameraRotationVelocity : cameraRotationVelocity + movementVelocity;
         targetSpread = Mathf.Clamp(targetSpread, 0, 10);
 
@@ -43,8 +40,8 @@ public class CrossHair : MonoBehaviour
         targetSpread = Mathf.Lerp(targetSpread, 0, Time.deltaTime * spreadSpeedMultiplier * fireSpeedMultiplier);
         CurrentSpread = Mathf.Lerp(CurrentSpread, targetSpread, Time.deltaTime * spreadSensetivity);
 
-        targetHide = Aiming ? 3 : 0;
-        currentHide = Mathf.Lerp(currentHide, targetHide, Time.deltaTime * 5);
+        targetHide = Aiming ? 4 : 0;
+        currentHide = Mathf.Lerp(currentHide, targetHide, Time.deltaTime * 6);
 
         anim.SetFloat("Spread", CurrentSpread);
         anim.SetFloat("Hide", currentHide);

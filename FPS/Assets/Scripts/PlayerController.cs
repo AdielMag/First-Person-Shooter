@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     Vector3 cameraCurrentRotation;
     Vector3 meshCurrentRotation;    // diffrent rotation for swivel - same roation as the camera but a bit slower.
 
+    Vector2 mouseInput;
     float pitch, yaw;
 
     #endregion
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     Ray middleScreenRay; // Used for raycasting from middle of the screen.
     Ray weaponRay;       // Used for raycasting from the weapon to check near obstacles.
-    float spread , maxSpread = 8.6f; // maxSpread is based on animation! - be carefull.
+    float spread , maxSpread = 10f; // maxSpread is based on animation! - be carefull.
 
     public bool weaponIsEquiped;
     public Weapon.FireMode weaponFireModes;
@@ -106,6 +107,8 @@ public class PlayerController : MonoBehaviour
         HandleInput();
         HandleCameraRotation();
         PlayerMovement();
+
+        crossHair.GetInput(new Vector2(mouseInput.x, mouseInput.y).magnitude, new Vector2(movingInput.x, movingInput.z).magnitude * currentSpeed);
 
         // Fire rate:
         if (fire)
@@ -184,8 +187,9 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(true, mainWeapon);
             if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(false, secondaryWeapon);
 
-            yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-            pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+            mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            yaw += mouseInput.x * mouseSensitivity;
+            pitch -= mouseInput.y * mouseSensitivity;
 
             isRunning = aim ? false : Input.GetKey(KeyCode.LeftShift) ? true : false;
 
@@ -236,7 +240,7 @@ public class PlayerController : MonoBehaviour
         // Handle raycasting
         middleScreenRay = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
-        spread = (maxSpread / 10) * crossHair.CurrentSpread;
+        spread = aim ? 0 : maxSpread / 10 * crossHair.CurrentSpread;
 
         // Rotate fire direction by spread.
         middleScreenRay.direction = Quaternion.AngleAxis(Random.Range(-spread,spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * camera.forward;
@@ -247,7 +251,9 @@ public class PlayerController : MonoBehaviour
         {
             // Cast a ray to see if their is an obstacle near the weapon - if there is one, shoot that!
             weaponRay = new Ray(weaponMuzzle.position, weaponMuzzle.forward);
+            // Rotate fire direction by spread.
             weaponRay.direction = Quaternion.AngleAxis(Random.Range(-spread, spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * weaponMuzzle.forward;
+
 
             if (Physics.Raycast(weaponRay, out RaycastHit newHit, 3))
             {
