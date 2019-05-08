@@ -26,12 +26,11 @@ public class PlayerController : MonoBehaviour
     [Header("Weapon Variables")]
     public int ammoCount;
     public int maxAmmo;
-    public float fireRate = 1;
     float lastTimeShot;
 
     Ray middleScreenRay; // Used for raycasting from middle of the screen.
     Ray weaponRay;       // Used for raycasting from the weapon to check near obstacles.
-    float spread , maxSpread = 10f; // maxSpread is based on animation! - be carefull.
+    float spread , maxSpread = 8.6f; // maxSpread is based on animation! - be carefull.
 
     public bool weaponIsEquiped;
     public Weapon.FireMode weaponFireModes;
@@ -107,19 +106,17 @@ public class PlayerController : MonoBehaviour
         HandleInput();
         HandleCameraRotation();
         PlayerMovement();
-        
-        // Fire rate
+
+        // Fire rate:
         if (fire)
-        { switch (currentFireMode)
+        {
+            switch (currentFireMode)
             {
                 case Weapon.FireMode.Automatic:
-                    if (lastTimeShot < Time.time)
-                        lastTimeShot = Time.time + (.6f / fireRate);
-                    else
-                        fire = false;
+                    // Do nothing.
                     break;
                 case Weapon.FireMode.Burst:
-                    // Currently not doing anything.
+                    // Not used here - check in fire method.
                     break;
                 case Weapon.FireMode.Single:
                     if (pulledTrigger)
@@ -127,6 +124,9 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
+
+        // Cross hair aiming variable:
+        crossHair.Aiming = aim;
 
         anim.SetBool("Aim", aim);
         anim.SetBool("Fire", fire);
@@ -222,6 +222,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         pulledTrigger = true;
+        crossHair.AddSpread(10);
 
         // Handle ammo and reloading
         if (ammoCount > 1)
@@ -249,12 +250,17 @@ public class PlayerController : MonoBehaviour
             weaponRay.direction = Quaternion.AngleAxis(Random.Range(-spread, spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * weaponMuzzle.forward;
 
             if (Physics.Raycast(weaponRay, out RaycastHit newHit, 3))
+            {
                 objPooler.SpawnFromPool(bulletImpact, newHit.point, Quaternion.identity);
+                objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(newHit.point), Quaternion.identity);
+            }
             else
+            {
                 objPooler.SpawnFromPool(bulletImpact, hit.point, Quaternion.identity);
-        }
+                objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(hit.point), Quaternion.identity);
+            }
 
-        crossHair.AddSpread(5);
+        }
     }
 
     public void Reload()
@@ -288,7 +294,6 @@ public class PlayerController : MonoBehaviour
 
         muzzleFlash = currentWeapon.muzzleFlash;
         bulletImpact = currentWeapon.bulletImpact;
-        fireRate = currentWeapon.fireRate;
 
         weaponFireModes = currentWeapon.capableFireModes;
         currentFireMode = weaponFireModes;

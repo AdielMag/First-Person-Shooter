@@ -6,9 +6,8 @@ public class Weapon : MonoBehaviour
 {
     public bool mainWeapon;
     public int damage;
-    public float fireRate;
 
-    public enum FireMode {Automatic,Burst,Single}
+    public enum FireMode {Automatic,Burst,Single,Shotgun}
     public FireMode capableFireModes;
 
     [Header("Need to be EXACTLY the same as the one in 'ObjectPooler'")]

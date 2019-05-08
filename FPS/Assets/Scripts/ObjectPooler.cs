@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPooler : MonoBehaviour
@@ -13,6 +12,7 @@ public class ObjectPooler : MonoBehaviour
         public string tag;
         public GameObject prefab;
         public int size;
+        public Transform parent;
     }
 
     #region Singelton
@@ -37,7 +37,7 @@ public class ObjectPooler : MonoBehaviour
         foreach (Pool pool in pools)
         {
             Queue<GameObject> ObjectsPool = new Queue<GameObject>();
-            GameObject poolParent = new GameObject(pool.tag + " Parent");
+            GameObject poolParent = pool.parent ? pool.parent.gameObject : new GameObject(pool.tag + " Parent");
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);

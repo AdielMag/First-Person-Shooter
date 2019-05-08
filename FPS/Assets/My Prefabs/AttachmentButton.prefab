@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9054477362647010793}
   - component: {fileID: 9054477362647010792}
   - component: {fileID: 502298756775324631}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: AttachmentButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,6 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0ca5eb01ba54ba9aa5cc35d33211e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScopeNumTag: 0
+  attachmentType: 0
+  attachment: {fileID: 0}
 --- !u!1 &9054477363101364851
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9054477363101364844}
   - component: {fileID: 9054477363101364845}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -8,7 +8,7 @@ public class AttachmentButton : MonoBehaviour
     public float ScopeNumTag;
     public AttachmentType attachmentType;
     public GameObject attachment;
-
+    
     Animator anim;
     PlayerController pCon;
 
@@ -87,5 +87,10 @@ public class AttachmentButton : MonoBehaviour
         if (attachment.activeSelf)
             anim.SetBool("Enabled", true);
 
+    }
+
+    public void HandleHovering(bool isHovering ) 
+    {
+        anim.SetBool("Hovering", isHovering); 
     }
 }
