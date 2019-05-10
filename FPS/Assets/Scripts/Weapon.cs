@@ -7,11 +7,18 @@ public class Weapon : MonoBehaviour
     public bool mainWeapon;
     public int damage;
 
+    public bool silenced, scopeSniper;
+
+    public Transform scopeCamera;
+
+    
+
     public enum FireMode {Automatic,Burst,Single,Shotgun}
     public FireMode capableFireModes;
 
     [Header("Need to be EXACTLY the same as the one in 'ObjectPooler'")]
     public string muzzleFlash;
+    public string silencedMuzzleFlash;
     public string bulletImpact;
 
     [Header("Attachments Menu")]

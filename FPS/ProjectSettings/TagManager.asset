@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - WeaponMuzzle
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -29,9 +29,11 @@ public class PlayerController : MonoBehaviour
     public int maxAmmo;
     float lastTimeShot;
 
+    public LayerMask allButPlayerLayerMask;
     Ray middleScreenRay; // Used for raycasting from middle of the screen.
     Ray weaponRay;       // Used for raycasting from the weapon to check near obstacles.
     float spread , maxSpread = 10f; // maxSpread is based on animation! - be carefull.
+    public Vector2 sniperScopeOffset = new Vector2(-200, 150);
 
     public bool weaponIsEquiped;
     public Weapon.FireMode weaponFireModes;
@@ -130,6 +132,14 @@ public class PlayerController : MonoBehaviour
 
         // Cross hair aiming variable:
         crossHair.Aiming = aim;
+
+        // Cross hair OnTarget variable:
+        spread = aim ? 0 : maxSpread / 10 * crossHair.CurrentSpread;
+
+        if (Physics.SphereCast(camera.position, spread / 5f, camera.forward, out RaycastHit hit, allButPlayerLayerMask))
+            crossHair.OnTarget = hit.transform.tag == "Enemy" ? true : false;
+        else
+            crossHair.OnTarget = false;
 
         anim.SetBool("Aim", aim);
         anim.SetBool("Fire", fire);
@@ -240,30 +250,35 @@ public class PlayerController : MonoBehaviour
         // Handle raycasting
         middleScreenRay = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
-        spread = aim ? 0 : maxSpread / 10 * crossHair.CurrentSpread;
-
         // Rotate fire direction by spread.
-        middleScreenRay.direction = Quaternion.AngleAxis(Random.Range(-spread,spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * camera.forward;
+        if(!currentWeapon.scopeSniper || !aim) 
+            middleScreenRay.direction = Quaternion.AngleAxis(Random.Range(-spread,spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * camera.forward;
+        else
+            middleScreenRay.direction = Quaternion.AngleAxis(Random.Range(-spread, spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * currentWeapon.scopeCamera.transform.forward;
 
         objPooler.SpawnFromPool(muzzleFlash, weaponMuzzle.rotation, Vector3.zero, weaponMuzzle);
 
-        if (Physics.Raycast(middleScreenRay, out RaycastHit hit))
+        if (Physics.Raycast(middleScreenRay, out RaycastHit hit, allButPlayerLayerMask))
         {
+
             // Cast a ray to see if their is an obstacle near the weapon - if there is one, shoot that!
             weaponRay = new Ray(weaponMuzzle.position, weaponMuzzle.forward);
             // Rotate fire direction by spread.
             weaponRay.direction = Quaternion.AngleAxis(Random.Range(-spread, spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * weaponMuzzle.forward;
 
+            Vector2 hitmarkOffset = currentWeapon.scopeSniper && aim ? sniperScopeOffset : Vector2.zero;
 
-            if (Physics.Raycast(weaponRay, out RaycastHit newHit, 3))
+            if (Physics.Raycast(weaponRay, out RaycastHit newHit, 3, allButPlayerLayerMask))
             {
                 objPooler.SpawnFromPool(bulletImpact, newHit.point, Quaternion.identity);
-                objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(newHit.point), Quaternion.identity);
+                if (newHit.transform.tag == "Enemy")
+                    objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(newHit.point) + transform.up * hitmarkOffset.y + transform.right * hitmarkOffset.x, Quaternion.identity);
             }
             else
             {
                 objPooler.SpawnFromPool(bulletImpact, hit.point, Quaternion.identity);
-                objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(hit.point), Quaternion.identity);
+                if (hit.transform.tag == "Enemy")
+                    objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(hit.point) + transform.up * hitmarkOffset.y + transform.right * hitmarkOffset.x, Quaternion.identity);
             }
 
         }

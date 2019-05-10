@@ -11,11 +11,13 @@ public class AttachmentButton : MonoBehaviour
     
     Animator anim;
     PlayerController pCon;
+    Weapon thisWeapon;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
         pCon = PlayerController.instance;
+        thisWeapon = GetComponentInParent<Weapon>();
     }
 
     public void Equip_UnEquip() 
@@ -58,9 +60,11 @@ public class AttachmentButton : MonoBehaviour
             {
                 case AttachmentType.Muzzle:
                     pCon.weaponMuzzle = attachment.transform.GetChild(0);
+                    thisWeapon.silenced = true;
                     break;
                 case AttachmentType.Scope:
-                    pCon.GetComponent<Animator>().SetFloat("Scope", ScopeNumTag);
+                    pCon.GetComponent<Animator>().SetFloat("Scope", ScopeNumTag * 5);
+                    thisWeapon.scopeSniper = ScopeNumTag == 2 ? true : false;
                     break;
                 case AttachmentType.Grip:
                     break;
@@ -72,9 +76,11 @@ public class AttachmentButton : MonoBehaviour
             {
                 case AttachmentType.Muzzle:
                     pCon.weaponMuzzle = PlayerController.instance.currentWeapon.transform.GetChild(0);
+                    thisWeapon.silenced = false;
                     break;
                 case AttachmentType.Scope:
                     pCon.GetComponent<Animator>().SetFloat("Scope", 0);
+                    thisWeapon.scopeSniper = false;
                     break;
                 case AttachmentType.Grip:
                     break;

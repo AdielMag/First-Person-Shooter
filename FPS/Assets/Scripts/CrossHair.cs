@@ -12,6 +12,7 @@ public class CrossHair : MonoBehaviour
 
     public float CurrentSpread { get; private set; }
     public bool Aiming { get; set; }
+    public bool OnTarget { get; set; }
 
     float cameraRotationVelocity, movementVelocity;
 
@@ -32,7 +33,7 @@ public class CrossHair : MonoBehaviour
 
     void Update()
     {
-        targetSpread += targetSpread > 2.5f ? cameraRotationVelocity : cameraRotationVelocity + movementVelocity;
+        targetSpread += targetSpread > 4f ? cameraRotationVelocity : cameraRotationVelocity + movementVelocity;
         targetSpread = Mathf.Clamp(targetSpread, 0, 10);
 
 
@@ -40,8 +41,8 @@ public class CrossHair : MonoBehaviour
         targetSpread = Mathf.Lerp(targetSpread, 0, Time.deltaTime * spreadSpeedMultiplier * fireSpeedMultiplier);
         CurrentSpread = Mathf.Lerp(CurrentSpread, targetSpread, Time.deltaTime * spreadSensetivity);
 
-        targetHide = Aiming ? 4 : 0;
-        currentHide = Mathf.Lerp(currentHide, targetHide, Time.deltaTime * 6);
+        targetHide = Aiming ? .5f : OnTarget ? -.5f : 0;
+        currentHide = Mathf.Lerp(currentHide, targetHide, Time.deltaTime * 20);
 
         anim.SetFloat("Spread", CurrentSpread);
         anim.SetFloat("Hide", currentHide);

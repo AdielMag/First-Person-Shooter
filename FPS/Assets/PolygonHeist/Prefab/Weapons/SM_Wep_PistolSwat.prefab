@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 464572}
   - component: {fileID: 3341540}
   - component: {fileID: 2399096}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_PistolSwat_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 428132}
   - component: {fileID: 3334304}
   - component: {fileID: 2319068}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_PistolSwat_Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 3360338}
   - component: {fileID: 2301690}
   - component: {fileID: 2048655934}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_PistolSwat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,9 +253,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainWeapon: 0
   damage: 2
-  fireRate: 5
   capableFireModes: 2
   muzzleFlash: RegularMuzzleFlash
+  silencedMuzzleFlash: SilencedMuzzleFlash
   bulletImpact: RegularBulletImpact
   attachmentMenu: {fileID: 730289937}
 --- !u!1 &188506
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 440784}
   - component: {fileID: 3321064}
   - component: {fileID: 2305736}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Wep_PistolSwat_Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,13 +345,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 730289938}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Attachment Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &730289938
 Transform:
   m_ObjectHideFlags: 0
@@ -406,7 +406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5125479818086287654}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Scope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,7 +451,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8772901052782392622}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,7 +483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1088865923815731855}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +514,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7393530756212228250}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Grip Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +560,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1090632168750037930}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeaponMuzzle
   m_TagString: WeaponMuzzle
   m_Icon: {fileID: 0}
@@ -591,7 +591,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4274303116506764226}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeaponMuzzle 2
   m_TagString: WeaponMuzzle
   m_Icon: {fileID: 0}
@@ -623,6 +623,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AttachmentButton_RedDot
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010794, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
@@ -687,11 +692,21 @@ PrefabInstance:
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: m_Delegates.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
@@ -730,6 +745,93 @@ PrefabInstance:
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
       objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1638673531148117491}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleHovering
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_TypeName
+      value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1638673531148117491}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleHovering
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_TypeName
+      value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477363101364851, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: ScopeNumTag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: attachmentType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: attachment
@@ -737,6 +839,12 @@ PrefabInstance:
       objectReference: {fileID: 1542356791248099049}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 674c7b6c41de64b48b363b57e658e9bb, type: 3}
+--- !u!1 &7918117432889803723 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1172408055340305956}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1638673531148117491 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
@@ -755,12 +863,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1172408055340305956}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7918117432889803723 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 1172408055340305956}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1225560488481696022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -771,6 +873,10 @@ PrefabInstance:
     - target: {fileID: 176494, guid: 3e73d13a7e1c19647b5eb630c82b9a96, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Attachment_Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 176494, guid: 3e73d13a7e1c19647b5eb630c82b9a96, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 176494, guid: 3e73d13a7e1c19647b5eb630c82b9a96, type: 3}
       propertyPath: m_IsActive
@@ -846,6 +952,10 @@ PrefabInstance:
       value: SM_Wep_Attachment_Redot
       objectReference: {fileID: 0}
     - target: {fileID: 184164, guid: 8eca1dd607c79b34b83c94565edf8b25, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 184164, guid: 8eca1dd607c79b34b83c94565edf8b25, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -893,17 +1003,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 212024149278480395, guid: 8eca1dd607c79b34b83c94565edf8b25,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778082977261445751, guid: 8eca1dd607c79b34b83c94565edf8b25,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8eca1dd607c79b34b83c94565edf8b25, type: 3}
---- !u!4 &1542356791248381563 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 442358, guid: 8eca1dd607c79b34b83c94565edf8b25,
-    type: 3}
-  m_PrefabInstance: {fileID: 1542356791248279949}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1542356791248099049 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 184164, guid: 8eca1dd607c79b34b83c94565edf8b25,
+    type: 3}
+  m_PrefabInstance: {fileID: 1542356791248279949}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1542356791248381563 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 442358, guid: 8eca1dd607c79b34b83c94565edf8b25,
     type: 3}
   m_PrefabInstance: {fileID: 1542356791248279949}
   m_PrefabAsset: {fileID: 0}
@@ -917,6 +1037,10 @@ PrefabInstance:
     - target: {fileID: 161846, guid: c2cc551f0384c4f44afd2420ca841cd9, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Attachment_Silencer
+      objectReference: {fileID: 0}
+    - target: {fileID: 161846, guid: c2cc551f0384c4f44afd2420ca841cd9, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 161846, guid: c2cc551f0384c4f44afd2420ca841cd9, type: 3}
       propertyPath: m_IsActive
@@ -968,15 +1092,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2cc551f0384c4f44afd2420ca841cd9, type: 3}
---- !u!1 &1588295719013450090 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 161846, guid: c2cc551f0384c4f44afd2420ca841cd9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1588295719013349724}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1588295719013775300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 429720, guid: c2cc551f0384c4f44afd2420ca841cd9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1588295719013349724}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1588295719013450090 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 161846, guid: c2cc551f0384c4f44afd2420ca841cd9,
     type: 3}
   m_PrefabInstance: {fileID: 1588295719013349724}
   m_PrefabAsset: {fileID: 0}
@@ -991,6 +1115,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AttachmentButton (1)_Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010794, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
@@ -1055,11 +1184,21 @@ PrefabInstance:
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: m_Delegates.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
@@ -1097,6 +1236,88 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_TypeName
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6315166018492156559}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleHovering
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_TypeName
+      value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6315166018492156559}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleHovering
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_TypeName
+      value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477363101364851, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: attachmentType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
@@ -1141,6 +1362,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttachmentButton_Torch
       objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010794, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1204,11 +1430,21 @@ PrefabInstance:
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: m_Delegates.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
@@ -1247,6 +1483,88 @@ PrefabInstance:
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
       objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6412768838240144096}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleHovering
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_TypeName
+      value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6412768838240144096}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleHovering
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_TypeName
+      value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477363101364851, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: attachmentType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: attachment
@@ -1254,18 +1572,6 @@ PrefabInstance:
       objectReference: {fileID: 6808142480690444183}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 674c7b6c41de64b48b363b57e658e9bb, type: 3}
---- !u!1 &2567555873520823512 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 6775170064263487799}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2567555873520823517 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9054477362647010794, guid: 674c7b6c41de64b48b363b57e658e9bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 6775170064263487799}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6412768838240144096 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
@@ -1278,6 +1584,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0ca5eb01ba54ba9aa5cc35d33211e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2567555873520823512 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6775170064263487799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2567555873520823517 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9054477362647010794, guid: 674c7b6c41de64b48b363b57e658e9bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6775170064263487799}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6808142480690530041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1288,6 +1606,10 @@ PrefabInstance:
     - target: {fileID: 176494, guid: 3e73d13a7e1c19647b5eb630c82b9a96, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Attachment_Torch
+      objectReference: {fileID: 0}
+    - target: {fileID: 176494, guid: 3e73d13a7e1c19647b5eb630c82b9a96, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 176494, guid: 3e73d13a7e1c19647b5eb630c82b9a96, type: 3}
       propertyPath: m_IsActive
@@ -1362,6 +1684,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AttachmentButton_Silencer
+      objectReference: {fileID: 0}
+    - target: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010794, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
@@ -1481,11 +1808,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
-      propertyPath: m_Delegates.Array.data[1].eventID
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9054477362647010793, guid: 674c7b6c41de64b48b363b57e658e9bb,
-        type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 9016248570487945613}
@@ -1556,6 +1878,11 @@ PrefabInstance:
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
       objectReference: {fileID: 0}
+    - target: {fileID: 9054477363101364851, guid: 674c7b6c41de64b48b363b57e658e9bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 502298756775324631, guid: 674c7b6c41de64b48b363b57e658e9bb,
         type: 3}
       propertyPath: attachment
@@ -1575,15 +1902,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0ca5eb01ba54ba9aa5cc35d33211e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &468189027256508336 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9054477362647010794, guid: 674c7b6c41de64b48b363b57e658e9bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 8924058862034096730}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &468189027256508341 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9054477362647010799, guid: 674c7b6c41de64b48b363b57e658e9bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 8924058862034096730}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &468189027256508336 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9054477362647010794, guid: 674c7b6c41de64b48b363b57e658e9bb,
     type: 3}
   m_PrefabInstance: {fileID: 8924058862034096730}
   m_PrefabAsset: {fileID: 0}
