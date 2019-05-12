@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttachmentButton : MonoBehaviour
 {
     public enum AttachmentType {Muzzle,Scope,Grip}
-    public float ScopeNumTag;
+    public int scopeNumTag;
     public AttachmentType attachmentType;
     public GameObject attachment;
     
@@ -63,8 +63,9 @@ public class AttachmentButton : MonoBehaviour
                     thisWeapon.silenced = true;
                     break;
                 case AttachmentType.Scope:
-                    pCon.GetComponent<Animator>().SetFloat("Scope", ScopeNumTag * 5);
-                    thisWeapon.scopeSniper = ScopeNumTag == 2 ? true : false;
+                    thisWeapon.scopeNumTag = scopeNumTag * 5;
+                    pCon.GetComponent<Animator>().SetFloat("Scope", thisWeapon.scopeNumTag);
+                    thisWeapon.scopeSniper = scopeNumTag == 2 ? true : false;
                     break;
                 case AttachmentType.Grip:
                     break;
@@ -79,7 +80,8 @@ public class AttachmentButton : MonoBehaviour
                     thisWeapon.silenced = false;
                     break;
                 case AttachmentType.Scope:
-                    pCon.GetComponent<Animator>().SetFloat("Scope", 0);
+                    thisWeapon.scopeNumTag = 0;
+                    pCon.GetComponent<Animator>().SetFloat("Scope", thisWeapon.scopeNumTag);
                     thisWeapon.scopeSniper = false;
                     break;
                 case AttachmentType.Grip:

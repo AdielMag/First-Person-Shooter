@@ -6,12 +6,12 @@ public class Weapon : MonoBehaviour
 {
     public bool mainWeapon;
     public int damage;
+    public int scopeNumTag;
 
     public bool silenced, scopeSniper;
 
     public Transform scopeCamera;
 
-    
 
     public enum FireMode {Automatic,Burst,Single,Shotgun}
     public FireMode capableFireModes;

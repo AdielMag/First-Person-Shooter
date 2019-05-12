@@ -8,7 +8,7 @@ public class WeaponAttachmentManager : MonoBehaviour
     Vector2 mousePosition;
     Vector2 relativeToMiddlePointPos;
 
-    Vector2 mainWeaponEdges, secondaryWeaponEdges;
+    Vector2 secondaryWeaponEdges;
     Vector2 targetNormalizedPos;
 
     Animator anim;
@@ -19,7 +19,6 @@ public class WeaponAttachmentManager : MonoBehaviour
         anim = GetComponent<Animator>();
         pCon = GetComponent<PlayerController>();
 
-     //  mainWeaponEdges = new Vector2(mainWeaponMiddlePoint.rect.width / 2, mainWeaponMiddlePoint.rect.height / 2);
         secondaryWeaponEdges =  new Vector2(secondaryWeaponMiddlePoint.rect.width / 2, secondaryWeaponMiddlePoint.rect.height / 2);
 
     }
@@ -44,8 +43,16 @@ public class WeaponAttachmentManager : MonoBehaviour
         anim.SetFloat("AttachmentMenuY", targetNormalizedPos.y);
 
     }
-    
-    public void OpenAttachmentMenu() 
+
+    public void OpenOrCloseAttachmentMenu()
+    {
+        if (pCon.currentWeapon.transform.GetChild(pCon.currentWeapon.transform.childCount - 1).gameObject.activeSelf)
+            StartCoroutine(CloseAndWaitAtttachmentMenu());
+        else
+            OpenAttachmentMenu();
+    }
+
+    void OpenAttachmentMenu() 
     {
         pCon.currentWeapon.transform.GetChild(pCon.currentWeapon.transform.childCount - 1).gameObject.SetActive(true);
 
@@ -55,11 +62,6 @@ public class WeaponAttachmentManager : MonoBehaviour
         {
             attachmentButtons[i].CheckIfEnabled();
         }
-    }
-
-    public void CloseAttachmentMenu()
-    {
-        StartCoroutine(CloseAndWaitAtttachmentMenu());
     }
 
     IEnumerator CloseAndWaitAtttachmentMenu()

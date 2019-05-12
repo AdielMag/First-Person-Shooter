@@ -256,6 +256,8 @@ public class PlayerController : MonoBehaviour
         else
             middleScreenRay.direction = Quaternion.AngleAxis(Random.Range(-spread, spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * currentWeapon.scopeCamera.transform.forward;
 
+        muzzleFlash = !currentWeapon.silenced ? currentWeapon.muzzleFlash : currentWeapon.silencedMuzzleFlash;
+
         objPooler.SpawnFromPool(muzzleFlash, weaponMuzzle.rotation, Vector3.zero, weaponMuzzle);
 
         if (Physics.Raycast(middleScreenRay, out RaycastHit hit, allButPlayerLayerMask))
@@ -318,11 +320,15 @@ public class PlayerController : MonoBehaviour
 
         weaponFireModes = currentWeapon.capableFireModes;
         currentFireMode = weaponFireModes;
+
+        anim.SetFloat("Scope", currentWeapon.scopeNumTag);
     }
     public void UnequipWeapon(int weaponNumTag)
     {
         foreach (GameObject weapon in weapons)
+        {
             weapon.SetActive(false);
+        }
 
         weaponMuzzle = null;
     }
