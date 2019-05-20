@@ -11,8 +11,10 @@ public class CrossHair : MonoBehaviour
     float currentHide, targetHide;
 
     public float CurrentSpread { get; private set; }
-    public bool Aiming { get; set; }
-    public bool OnTarget { get; set; }
+    public bool  Aiming { get; set; }
+    public bool  OnTarget { get; set; }
+    public bool  CanInteract { get; set; }
+
 
     float cameraRotationVelocity, movementVelocity;
 
@@ -44,8 +46,11 @@ public class CrossHair : MonoBehaviour
         targetHide = Aiming ? .5f : OnTarget ? -.5f : 0;
         currentHide = Mathf.Lerp(currentHide, targetHide, Time.deltaTime * 20);
 
+        CanInteract = Aiming || OnTarget ? false : CanInteract;
+
         anim.SetFloat("Spread", CurrentSpread);
         anim.SetFloat("Hide", currentHide);
+        anim.SetBool("CanInteract", CanInteract);
     }
 
     public void GetInput(float cameraRotationInput, float movementInput)

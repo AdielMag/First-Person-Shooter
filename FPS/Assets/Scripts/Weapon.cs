@@ -6,6 +6,7 @@ public class Weapon : MonoBehaviour
 {
     public bool mainWeapon;
     public int damage;
+    public int currentAmmo, maxAmmo;
     public int scopeNumTag;
 
     public bool silenced, scopeSniper;
@@ -23,4 +24,9 @@ public class Weapon : MonoBehaviour
 
     [Header("Attachments Menu")]
     public GameObject attachmentMenu;
+
+    private void Awake()
+    {
+        currentAmmo = maxAmmo;
+    }
 }

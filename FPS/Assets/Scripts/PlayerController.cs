@@ -7,7 +7,10 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool aim, fire, reload; // Commands states.
     [HideInInspector]
+    public InteractiveItem interactive;
+    [HideInInspector]
     public bool attachmentMenu;
+    bool pressedAttachmentMenuOnce;
 
     #region Camera Rotation Variables
 
@@ -29,10 +32,10 @@ public class PlayerController : MonoBehaviour
     public int maxAmmo;
     float lastTimeShot;
 
-    public LayerMask allButPlayerLayerMask;
+    public LayerMask allButPlayerLayerMask, notPlayerOrInteractible;
     Ray middleScreenRay; // Used for raycasting from middle of the screen.
     Ray weaponRay;       // Used for raycasting from the weapon to check near obstacles.
-    float spread , maxSpread = 10f; // maxSpread is based on animation! - be carefull.
+    float spread, maxSpread = 10f; // maxSpread is based on animation! - be carefull.
     public Vector2 sniperScopeOffset = new Vector2(-200, 150);
 
     public bool weaponIsEquiped;
@@ -42,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public Weapon currentWeapon;
-    int mainWeapon = 1, secondaryWeapon = 2;
+    int mainWeapon, secondaryWeapon;
     [HideInInspector]
     public string muzzleFlash, bulletImpact;
     public Transform weaponSlot;
@@ -72,6 +75,7 @@ public class PlayerController : MonoBehaviour
     ObjectPooler objPooler;
     WeaponAttachmentManager weaponAttachM;
     CrossHair crossHair;
+    ScreenMessageLine scrMsgLine;
 
     #region Singelton
     static public PlayerController instance;
@@ -90,6 +94,7 @@ public class PlayerController : MonoBehaviour
         objPooler = ObjectPooler.instance;
         weaponAttachM = GetComponent<WeaponAttachmentManager>();
         crossHair = CrossHair.instance;
+        scrMsgLine = ScreenMessageLine.instance;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -136,10 +141,31 @@ public class PlayerController : MonoBehaviour
         // Cross hair OnTarget variable:
         spread = aim ? 0 : maxSpread / 10 * crossHair.CurrentSpread;
 
-        if (Physics.SphereCast(camera.position, spread / 5f, camera.forward, out RaycastHit hit, allButPlayerLayerMask))
-            crossHair.OnTarget = hit.transform.tag == "Enemy" ? true : false;
+        if (Physics.SphereCast(camera.position, spread / 5f, camera.forward, out RaycastHit hit, notPlayerOrInteractible))
+            crossHair.OnTarget = hit.transform.tag == "Enemy";
         else
             crossHair.OnTarget = false;
+
+        if (Physics.Raycast(camera.position, camera.forward, out RaycastHit interactHit, 2))
+        {
+            crossHair.CanInteract = interactHit.transform.tag == "Interactive";
+            interactive = interactHit.transform.GetComponent<InteractiveItem>();
+
+            if (interactive && interactive.itemType == InteractiveItem.ItemType.Weapon)
+                scrMsgLine.weaponName = interactive.WeaponName();
+            else
+            {
+                scrMsgLine.weaponName = "Empty";
+                crossHair.CanInteract = false;
+                interactive = null;
+            }
+        }
+        else
+        {
+            scrMsgLine.weaponName = "Empty";
+            crossHair.CanInteract = false;
+            interactive = null;
+        }
 
         anim.SetBool("Aim", aim);
         anim.SetBool("Fire", fire);
@@ -149,12 +175,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void PlayerMovement()
+    void PlayerMovement()
     {
         // If there's input for moving.
         if (movingInput != Vector3.zero)
         {
-            targetSpeed = isRunning ? runSpeed : walkSpeed;
+            targetSpeed = isRunning ? reload ? walkSpeed : runSpeed : walkSpeed;
         }
         else
         {
@@ -170,9 +196,9 @@ public class PlayerController : MonoBehaviour
         rgb.velocity = movingDirection * currentSpeed;
     }
 
-    private void HandleInput()
+    void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.N) && pressedAttachmentMenuOnce)
         {
             if (weaponIsEquiped)
             {
@@ -189,13 +215,17 @@ public class PlayerController : MonoBehaviour
                     Cursor.visible = false;
                 }
             }
+            pressedAttachmentMenuOnce = false;
         }
+        else
+            pressedAttachmentMenuOnce = true;
 
         if (!attachmentMenu)
         {
-            if (!Input.GetMouseButton(0)) pulledTrigger = false;    // Used for FireMode.Single - to check if lifted the mouseButton.
-            if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeWeapon(true, mainWeapon);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeWeapon(false, secondaryWeapon);
+            if (Input.GetAxis("Fire1") == 0) pulledTrigger = false;    // Used for FireMode.Single - to check if lifted the mouseButton.
+            if (Input.GetAxis("WeaponSlot1") != 0) ChangeWeapon(true, mainWeapon);
+            if (Input.GetAxis("WeaponSlot2") != 0) ChangeWeapon(false, secondaryWeapon);
+            if (Input.GetAxis("Interact") != 0 && interactive) PickUpWeapon();
 
             mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             yaw += mouseInput.x * mouseSensitivity;
@@ -215,18 +245,18 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void HandleCameraRotation()
+    void HandleCameraRotation()
     {
 
         // Clamp pitch.
-        pitch = Mathf.Clamp(pitch, -40, 55);
+        pitch = Mathf.Clamp(pitch, -40, 75);
 
         // Set orientation:
         cameraCurrentRotation = Vector3.SmoothDamp(cameraCurrentRotation, new Vector3(pitch, yaw), ref rotationSmoothVelocity, cameraRotationSpeed);
         camera.eulerAngles = cameraCurrentRotation;
 
         // Set orientation for hands (to swivel):
-        meshCurrentRotation = Vector3.Lerp(meshCurrentRotation, cameraCurrentRotation, Time.deltaTime * 25);
+        meshCurrentRotation = Vector3.Lerp(meshCurrentRotation, cameraCurrentRotation, Time.deltaTime * 30);
         camera.transform.GetChild(0).eulerAngles = meshCurrentRotation;
     }
 
@@ -246,6 +276,7 @@ public class PlayerController : MonoBehaviour
             ammoCount--;
             anim.SetBool("NoAmmo",true);
         }
+        currentWeapon.currentAmmo = ammoCount;
 
         // Handle raycasting
         middleScreenRay = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -260,7 +291,7 @@ public class PlayerController : MonoBehaviour
 
         objPooler.SpawnFromPool(muzzleFlash, weaponMuzzle.rotation, Vector3.zero, weaponMuzzle);
 
-        if (Physics.Raycast(middleScreenRay, out RaycastHit hit, allButPlayerLayerMask))
+        if (Physics.Raycast(middleScreenRay, out RaycastHit hit, notPlayerOrInteractible))
         {
 
             // Cast a ray to see if their is an obstacle near the weapon - if there is one, shoot that!
@@ -270,7 +301,7 @@ public class PlayerController : MonoBehaviour
 
             Vector2 hitmarkOffset = currentWeapon.scopeSniper && aim ? sniperScopeOffset : Vector2.zero;
 
-            if (Physics.Raycast(weaponRay, out RaycastHit newHit, 3, allButPlayerLayerMask))
+            if (Physics.Raycast(weaponRay, out RaycastHit newHit, 3, notPlayerOrInteractible))
             {
                 objPooler.SpawnFromPool(bulletImpact, newHit.point, Quaternion.identity);
                 if (newHit.transform.tag == "Enemy")
@@ -288,15 +319,24 @@ public class PlayerController : MonoBehaviour
 
     public void Reload()
     {
-        ammoCount = maxAmmo;
+        ammoCount = currentWeapon.currentAmmo = maxAmmo;
         anim.SetBool("NoAmmo", false);
         reload = false;
+    }
+
+    public void PickUpWeapon() 
+    {
+        ChangeWeapon(interactive.mainWeapon, interactive.weaponNumTag);
+        interactive.gameObject.SetActive(false);
     }
 
     public void ChangeWeapon(bool main, int weaponNumTag)
     {
         if (weaponNumTag == 0)
+        {
+            scrMsgLine.NoWeaponEquipped();
             return;
+        }
 
         if (main)
             mainWeapon = weaponNumTag;
@@ -307,7 +347,7 @@ public class PlayerController : MonoBehaviour
         anim.SetInteger("WeaponNumTag", weaponNumTag);
     }
 
-    public void EquipWeapon(int weaponNumTag)
+    public void DrawWeapon(int weaponNumTag)
     {
         weaponNumTag -= 1;
 
@@ -321,9 +361,13 @@ public class PlayerController : MonoBehaviour
         weaponFireModes = currentWeapon.capableFireModes;
         currentFireMode = weaponFireModes;
 
+        ammoCount = currentWeapon.currentAmmo;
+        maxAmmo = currentWeapon.maxAmmo;
+
         anim.SetFloat("Scope", currentWeapon.scopeNumTag);
+        reload = false;
     }
-    public void UnequipWeapon(int weaponNumTag)
+    public void SheathWeapon(int weaponNumTag)
     {
         foreach (GameObject weapon in weapons)
         {

@@ -13,7 +13,7 @@ public class DrawOrSheathe : StateMachineBehaviour
     {
         if (draw)
         {
-            PlayerController.instance.EquipWeapon(weaponNumTag);
+            PlayerController.instance.DrawWeapon(weaponNumTag);
             PlayerController.instance.weaponIsEquiped = true;
         }
         else
@@ -24,7 +24,7 @@ public class DrawOrSheathe : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (!draw)
-            PlayerController.instance.UnequipWeapon(weaponNumTag);
+            PlayerController.instance.SheathWeapon(weaponNumTag);
         
     }
 
