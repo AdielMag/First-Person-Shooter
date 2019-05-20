@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [HideInInspector]
-    public bool aim, fire, reload; // Commands states.
+    public bool aim, fire, reload, Interact; // Commands states.
     [HideInInspector]
-    public InteractiveItem interactive;
+    public InteractiveItem currentInteractiveItem;
     [HideInInspector]
     public bool attachmentMenu;
     bool pressedAttachmentMenuOnce;
@@ -135,37 +135,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Cross hair aiming variable:
-        crossHair.Aiming = aim;
-
-        // Cross hair OnTarget variable:
-        spread = aim ? 0 : maxSpread / 10 * crossHair.CurrentSpread;
-
-        if (Physics.SphereCast(camera.position, spread / 5f, camera.forward, out RaycastHit hit, notPlayerOrInteractible))
-            crossHair.OnTarget = hit.transform.tag == "Enemy";
-        else
-            crossHair.OnTarget = false;
-
-        if (Physics.Raycast(camera.position, camera.forward, out RaycastHit interactHit, 2))
-        {
-            crossHair.CanInteract = interactHit.transform.tag == "Interactive";
-            interactive = interactHit.transform.GetComponent<InteractiveItem>();
-
-            if (interactive && interactive.itemType == InteractiveItem.ItemType.Weapon)
-                scrMsgLine.weaponName = interactive.WeaponName();
-            else
-            {
-                scrMsgLine.weaponName = "Empty";
-                crossHair.CanInteract = false;
-                interactive = null;
-            }
-        }
-        else
-        {
-            scrMsgLine.weaponName = "Empty";
-            crossHair.CanInteract = false;
-            interactive = null;
-        }
+        CrossHairAndInteractiveItems();
 
         anim.SetBool("Aim", aim);
         anim.SetBool("Fire", fire);
@@ -225,7 +195,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetAxis("Fire1") == 0) pulledTrigger = false;    // Used for FireMode.Single - to check if lifted the mouseButton.
             if (Input.GetAxis("WeaponSlot1") != 0) ChangeWeapon(true, mainWeapon);
             if (Input.GetAxis("WeaponSlot2") != 0) ChangeWeapon(false, secondaryWeapon);
-            if (Input.GetAxis("Interact") != 0 && interactive) PickUpWeapon();
+            Interact = Input.GetAxis("Interact") != 0;
 
             mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             yaw += mouseInput.x * mouseSensitivity;
@@ -293,27 +263,12 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(middleScreenRay, out RaycastHit hit, notPlayerOrInteractible))
         {
-
-            // Cast a ray to see if their is an obstacle near the weapon - if there is one, shoot that!
-            weaponRay = new Ray(weaponMuzzle.position, weaponMuzzle.forward);
-            // Rotate fire direction by spread.
-            weaponRay.direction = Quaternion.AngleAxis(Random.Range(-spread, spread), new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0)) * weaponMuzzle.forward;
-
             Vector2 hitmarkOffset = currentWeapon.scopeSniper && aim ? sniperScopeOffset : Vector2.zero;
 
-            if (Physics.Raycast(weaponRay, out RaycastHit newHit, 3, notPlayerOrInteractible))
-            {
-                objPooler.SpawnFromPool(bulletImpact, newHit.point, Quaternion.identity);
-                if (newHit.transform.tag == "Enemy")
-                    objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(newHit.point) + transform.up * hitmarkOffset.y + transform.right * hitmarkOffset.x, Quaternion.identity);
-            }
-            else
-            {
-                objPooler.SpawnFromPool(bulletImpact, hit.point, Quaternion.identity);
-                if (hit.transform.tag == "Enemy")
-                    objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(hit.point) + transform.up * hitmarkOffset.y + transform.right * hitmarkOffset.x, Quaternion.identity);
-            }
-
+            objPooler.SpawnFromPool(bulletImpact, hit.point + hit.normal * .02f, Quaternion.identity);
+            if (hit.transform.tag == "Enemy")
+                objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(hit.point)
+                + transform.up * hitmarkOffset.y + transform.right * hitmarkOffset.x, Quaternion.identity);
         }
     }
 
@@ -324,10 +279,53 @@ public class PlayerController : MonoBehaviour
         reload = false;
     }
 
+    private void CrossHairAndInteractiveItems()
+    {
+        // Cross hair aiming variable:
+        crossHair.Aiming = aim;
+
+        // Cross hair OnTarget variable:
+        spread = aim ? 0 : maxSpread / 10 * crossHair.CurrentSpread;
+
+        if (Physics.SphereCast(camera.position, spread / 5f, camera.forward, out RaycastHit hit, notPlayerOrInteractible))
+            crossHair.OnTarget = hit.transform.tag == "Enemy";
+        else
+            crossHair.OnTarget = false;
+
+        if (Physics.Raycast(camera.position, camera.forward, out RaycastHit interactHit, 2))
+        {
+            crossHair.CanInteract = interactHit.transform.tag == "Interactive";
+            currentInteractiveItem = interactHit.transform.GetComponent<InteractiveItem>();
+
+            scrMsgLine.weaponName = currentInteractiveItem ? currentInteractiveItem.WeaponName() : null;
+
+            if (Interact & currentInteractiveItem)
+            {
+                if (currentInteractiveItem.itemType == InteractiveItem.ItemType.Door)
+                    currentInteractiveItem.DoorBehaviour(transform.position);
+                else if (currentInteractiveItem.itemType == InteractiveItem.ItemType.Weapon)
+                    PickUpWeapon();
+            }
+
+            if (!currentInteractiveItem)
+            {
+                scrMsgLine.weaponName = "Empty";
+                crossHair.CanInteract = false;
+                currentInteractiveItem = null;
+            }
+        }
+        else
+        {
+            scrMsgLine.weaponName = "Empty";
+            crossHair.CanInteract = false;
+            currentInteractiveItem = null;
+        }
+    }
+
     public void PickUpWeapon() 
     {
-        ChangeWeapon(interactive.mainWeapon, interactive.weaponNumTag);
-        interactive.gameObject.SetActive(false);
+        ChangeWeapon(currentInteractiveItem.mainWeapon, currentInteractiveItem.weaponNumTag);
+        currentInteractiveItem.gameObject.SetActive(false);
     }
 
     public void ChangeWeapon(bool main, int weaponNumTag)
@@ -353,7 +351,7 @@ public class PlayerController : MonoBehaviour
 
 
         currentWeapon.gameObject.SetActive(true);
-        weaponMuzzle = currentWeapon.transform.GetChild(0);
+        weaponMuzzle = currentWeapon.silenced ? currentWeapon.transform.GetChild(0).GetChild(0).GetChild(0) : currentWeapon.transform.GetChild(0);
 
         muzzleFlash = currentWeapon.muzzleFlash;
         bulletImpact = currentWeapon.bulletImpact;
