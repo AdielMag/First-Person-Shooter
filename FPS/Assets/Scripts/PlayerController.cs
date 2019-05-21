@@ -265,7 +265,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 hitmarkOffset = currentWeapon.scopeSniper && aim ? sniperScopeOffset : Vector2.zero;
 
-            objPooler.SpawnFromPool(bulletImpact, hit.point + hit.normal * .02f, Quaternion.identity);
+            objPooler.SpawnFromPool(bulletImpact, hit.point, Quaternion.identity);
             if (hit.transform.tag == "Enemy")
                 objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(hit.point)
                 + transform.up * hitmarkOffset.y + transform.right * hitmarkOffset.x, Quaternion.identity);

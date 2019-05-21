@@ -94,7 +94,6 @@ public class AttachmentButton : MonoBehaviour
     {
         if (attachment.activeSelf)
             anim.SetBool("Enabled", true);
-
     }
 
     public void HandleHovering(bool isHovering ) 
