@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedSmoothMultiplier);
 
         // Direction relative to camera.
-        movingDirection = camera.TransformVector(movingInput);
+        movingDirection = Vector3.Lerp(movingDirection, camera.TransformVector(movingInput), Time.deltaTime *8);
         movingDirection.y = 0;
 
         rgb.velocity = movingDirection * currentSpeed;
@@ -363,7 +363,9 @@ public class PlayerController : MonoBehaviour
         maxAmmo = currentWeapon.maxAmmo;
 
         anim.SetFloat("Scope", currentWeapon.scopeNumTag);
+        anim.SetBool("NoAmmo", ammoCount == 0 ? true : false);
         reload = false;
+
     }
     public void SheathWeapon(int weaponNumTag)
     {
