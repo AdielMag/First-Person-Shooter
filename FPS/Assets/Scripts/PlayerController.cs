@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.N) && pressedAttachmentMenuOnce)
+        if (Input.GetAxis("AttachmentMenu") != 0 && !pressedAttachmentMenuOnce)
         {
             if (weaponIsEquiped)
             {
@@ -184,15 +184,15 @@ public class PlayerController : MonoBehaviour
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                 }
+                pressedAttachmentMenuOnce = true;
             }
-            pressedAttachmentMenuOnce = false;
         }
-        else
-            pressedAttachmentMenuOnce = true;
+        else if (Input.GetAxis("AttachmentMenu") == 0)
+            pressedAttachmentMenuOnce = false;
 
         if (!attachmentMenu)
         {
-            if (Input.GetAxis("Fire1") == 0) pulledTrigger = false;    // Used for FireMode.Single - to check if lifted the mouseButton.
+            if (Input.GetAxis("Fire1") == 0) pulledTrigger = false;                 // Used for FireMode.Single - to check if lifted the mouseButton.
             if (Input.GetAxis("WeaponSlot1") != 0) ChangeWeapon(true, mainWeapon);
             if (Input.GetAxis("WeaponSlot2") != 0) ChangeWeapon(false, secondaryWeapon);
             Interact = Input.GetAxis("Interact") != 0;

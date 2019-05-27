@@ -73,7 +73,7 @@ public class WeaponAttachmentManager : MonoBehaviour
             attachmentButtons[i].SetTrigger("FadeOut");
         }
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.2f);
         pCon.currentWeapon.transform.GetChild(pCon.currentWeapon.transform.childCount - 1).gameObject.SetActive(false);
         yield break;
     }
