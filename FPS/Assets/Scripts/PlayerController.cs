@@ -28,8 +28,9 @@ public class PlayerController : MonoBehaviour
 
     #region Shooting Variables
     [Header("Weapon Variables")]
-    public int ammoCount;
+    public int currentWeaponMagAmmo;
     public int maxAmmo;
+    public int reservedAmmo;
     float lastTimeShot;
 
     public LayerMask allButPlayerLayerMask, notPlayerOrInteractible;
@@ -99,7 +100,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        ammoCount = maxAmmo;
+        currentWeaponMagAmmo = maxAmmo;
 
         // Make array with al lthe weapons.
         weapons = new GameObject[weaponSlot.childCount];
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Aim", aim);
         anim.SetBool("Fire", fire);
         anim.SetBool("Reload", reload);
-        anim.SetFloat("Vertical", currentSpeed);
+        anim.SetFloat("Vertical", currentSpeed * 2);
         anim.SetBool("AttachmentsMenu", attachmentMenu);
 
     }
@@ -207,7 +208,7 @@ public class PlayerController : MonoBehaviour
             {
                 aim = Input.GetMouseButton(1) && !reload ? true : false;
                 fire = Input.GetMouseButton(0) && !reload ? true : false;
-                reload = Input.GetKey(KeyCode.R) && ammoCount != maxAmmo ? true : reload ? true : false;
+                reload = Input.GetKey(KeyCode.R) && CanReload() || currentWeaponMagAmmo <= 0 && CanReload();
             }
         }
 
@@ -232,21 +233,21 @@ public class PlayerController : MonoBehaviour
 
     public void Fire()
     {
-        if (!weaponIsEquiped)
-            return;
-
+        if (!weaponIsEquiped || currentWeaponMagAmmo == 0)
+           return;
+          
         pulledTrigger = true;
         crossHair.AddSpread(10);
 
         // Handle ammo and reloading
-        if (ammoCount > 1)
-            ammoCount--;
+        if (currentWeaponMagAmmo > 1)
+            currentWeaponMagAmmo--;
         else
         {
-            ammoCount--;
+            currentWeaponMagAmmo--;
             anim.SetBool("NoAmmo",true);
         }
-        currentWeapon.currentAmmo = ammoCount;
+        currentWeapon.currentWeaponMagAmmo = currentWeaponMagAmmo;
 
         // Handle raycasting
         middleScreenRay = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -272,9 +273,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    bool CanReload()
+    {
+        if (reservedAmmo <= 0)
+            return false;
+
+        if (reload)
+            return true;
+        if (currentWeaponMagAmmo != maxAmmo)
+            return true;
+
+        return false;
+    }
     public void Reload()
     {
-        ammoCount = currentWeapon.currentAmmo = maxAmmo;
+        if (reservedAmmo >= maxAmmo)
+        {
+            currentWeaponMagAmmo = currentWeapon.currentWeaponMagAmmo = maxAmmo;
+            reservedAmmo = currentWeapon.reserveAmmo = reservedAmmo - maxAmmo;
+        }
+        else if(reservedAmmo > 0) 
+        {
+            currentWeaponMagAmmo = currentWeapon.currentWeaponMagAmmo = reservedAmmo;
+            reservedAmmo = currentWeapon.reserveAmmo = 0;
+        }
+
         anim.SetBool("NoAmmo", false);
         reload = false;
     }
@@ -359,11 +382,12 @@ public class PlayerController : MonoBehaviour
         weaponFireModes = currentWeapon.capableFireModes;
         currentFireMode = weaponFireModes;
 
-        ammoCount = currentWeapon.currentAmmo;
+        currentWeaponMagAmmo = currentWeapon.currentWeaponMagAmmo;
         maxAmmo = currentWeapon.maxAmmo;
+        reservedAmmo = currentWeapon.reserveAmmo;
 
         anim.SetFloat("Scope", currentWeapon.scopeNumTag);
-        anim.SetBool("NoAmmo", ammoCount == 0 ? true : false);
+        anim.SetBool("NoAmmo", currentWeaponMagAmmo == 0 ? true : false);
         reload = false;
 
     }

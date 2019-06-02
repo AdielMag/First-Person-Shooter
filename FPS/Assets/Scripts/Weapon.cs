@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     public bool mainWeapon;
     public int damage;
-    public int currentAmmo, maxAmmo;
+    public int currentWeaponMagAmmo, maxAmmo, reserveAmmo;
     public int scopeNumTag;
 
     public bool silenced, scopeSniper;
@@ -27,6 +27,6 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        currentAmmo = maxAmmo;
+        currentWeaponMagAmmo = maxAmmo;
     }
 }
