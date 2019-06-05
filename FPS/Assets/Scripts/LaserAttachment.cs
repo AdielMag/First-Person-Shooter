@@ -23,13 +23,13 @@ public class LaserAttachment : MonoBehaviour
         ray = new Ray(origin.position, origin.forward);
         if (Physics.Raycast(ray, out hit,6)) 
         {
+            collisionLight.SetActive(true);
             lineRen.SetPosition(1, new Vector3(0, 0, hit.distance));
             collisionLight.transform.position = origin.position + origin.forward * hit.distance;
         }
         else 
         {
-            lineRen.SetPosition(1, new Vector3(0, 0, 6));
-            collisionLight.transform.position = origin.position + origin.forward * 6;
+            collisionLight.SetActive(false);
         }
     }
 }
