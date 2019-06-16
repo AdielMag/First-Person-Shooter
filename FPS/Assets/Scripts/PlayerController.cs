@@ -121,6 +121,12 @@ public class PlayerController : MonoBehaviour
         // Fire rate:
         if (fire)
         {
+            if (currentWeaponMagAmmo == 0)
+            {
+                scrMsgLine.NoAmmo();
+                return;
+            }
+
             switch (currentFireMode)
             {
                 case Weapon.FireMode.Automatic:
@@ -233,9 +239,9 @@ public class PlayerController : MonoBehaviour
 
     public void Fire()
     {
-        if (!weaponIsEquiped || currentWeaponMagAmmo == 0)
+        if (!weaponIsEquiped)
            return;
-          
+
         pulledTrigger = true;
         crossHair.AddSpread(10);
 
@@ -287,16 +293,11 @@ public class PlayerController : MonoBehaviour
     }
     public void Reload()
     {
-        if (reservedAmmo >= maxAmmo)
-        {
-            currentWeaponMagAmmo = currentWeapon.currentWeaponMagAmmo = maxAmmo;
-            reservedAmmo = currentWeapon.reserveAmmo = reservedAmmo - maxAmmo;
-        }
-        else if(reservedAmmo > 0) 
-        {
-            currentWeaponMagAmmo = currentWeapon.currentWeaponMagAmmo = reservedAmmo;
-            reservedAmmo = currentWeapon.reserveAmmo = 0;
-        }
+        int missingAmmo = maxAmmo - currentWeaponMagAmmo;
+
+        currentWeaponMagAmmo = currentWeapon.currentWeaponMagAmmo = missingAmmo > reservedAmmo ? currentWeaponMagAmmo + reservedAmmo : maxAmmo;
+        reservedAmmo = currentWeapon.reserveAmmo = reservedAmmo - missingAmmo;
+        if (reservedAmmo < 0) reservedAmmo = 0;
 
         anim.SetBool("NoAmmo", false);
         reload = false;
@@ -324,10 +325,18 @@ public class PlayerController : MonoBehaviour
 
             if (Interact & currentInteractiveItem)
             {
-                if (currentInteractiveItem.itemType == InteractiveItem.ItemType.Door)
-                    currentInteractiveItem.DoorBehaviour(transform.position);
-                else if (currentInteractiveItem.itemType == InteractiveItem.ItemType.Weapon)
-                    PickUpWeapon();
+                switch (currentInteractiveItem.itemType)
+                {
+                    case InteractiveItem.ItemType.Door:
+                        currentInteractiveItem.DoorBehaviour(transform.position);
+                        break;
+                    case InteractiveItem.ItemType.Weapon:
+                        PickUpWeapon();
+                        break;
+                    case InteractiveItem.ItemType.Ammo:
+                        PickUpAmmo();
+                        break;
+                }
             }
 
             if (!currentInteractiveItem)
@@ -343,6 +352,15 @@ public class PlayerController : MonoBehaviour
             crossHair.CanInteract = false;
             currentInteractiveItem = null;
         }
+    }
+
+    public void PickUpAmmo()
+    {
+        weapons[currentInteractiveItem.weaponNumTag - 1].GetComponent<Weapon>().reserveAmmo += 30;
+        if (currentWeapon == weapons[currentInteractiveItem.weaponNumTag - 1].GetComponent<Weapon>())
+            reservedAmmo += 30;
+
+        currentInteractiveItem.gameObject.SetActive(false);
     }
 
     public void PickUpWeapon() 

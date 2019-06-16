@@ -3,7 +3,7 @@ using System.Collections;
 
 public class WeaponAttachmentManager : MonoBehaviour
 {
-    public RectTransform mainWeaponMiddlePoint, secondaryWeaponMiddlePoint;
+    public RectTransform secondaryWeaponMiddlePoint;
 
     Vector2 mousePosition;
     Vector2 relativeToMiddlePointPos;

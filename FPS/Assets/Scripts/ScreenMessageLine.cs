@@ -36,6 +36,12 @@ public class ScreenMessageLine : MonoBehaviour
 
         anim.SetBool("ShowText", true);
     }
+    public void NoAmmo()
+    {
+        text.text = "No Ammo";
+
+        anim.SetBool("ShowText", true);
+    }
     public void HideNoWeaponEquipped()
     {
         anim.SetBool("ShowText", false);
