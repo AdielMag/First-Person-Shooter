@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [HideInInspector]
-    public bool aim, fire, reload, Interact; // Commands states.
+    public bool aim, fire, reload, Interact,frontWallCollsion; // Commands states.
     [HideInInspector]
     public InteractiveItem currentInteractiveItem;
     [HideInInspector]
@@ -121,24 +121,25 @@ public class PlayerController : MonoBehaviour
         // Fire rate:
         if (fire)
         {
-            if (currentWeaponMagAmmo == 0)
+            if (currentWeaponMagAmmo == 0 && reservedAmmo == 0)
             {
                 scrMsgLine.NoAmmo();
-                return;
             }
-
-            switch (currentFireMode)
+            else
             {
-                case Weapon.FireMode.Automatic:
-                    // Do nothing.
-                    break;
-                case Weapon.FireMode.Burst:
-                    // Not used here - check in fire method.
-                    break;
-                case Weapon.FireMode.Single:
-                    if (pulledTrigger)
-                        fire = false;
-                    break;
+                switch (currentFireMode)
+                {
+                    case Weapon.FireMode.Automatic:
+                        // Do nothing.
+                        break;
+                    case Weapon.FireMode.Burst:
+                        // Not used here - check in fire method.
+                        break;
+                    case Weapon.FireMode.Single:
+                        if (pulledTrigger)
+                            fire = false;
+                        break;
+                }
             }
         }
 
@@ -149,6 +150,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Reload", reload);
         anim.SetFloat("Vertical", currentSpeed * 2);
         anim.SetBool("AttachmentsMenu", attachmentMenu);
+        anim.SetBool("FrontWall", frontWallCollsion);
 
     }
 
@@ -177,7 +179,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetAxis("AttachmentMenu") != 0 && !pressedAttachmentMenuOnce)
         {
-            if (weaponIsEquiped)
+            if (weaponIsEquiped && !reload)
             {
                 attachmentMenu = !attachmentMenu;
 
@@ -214,7 +216,7 @@ public class PlayerController : MonoBehaviour
             {
                 aim = Input.GetMouseButton(1) && !reload ? true : false;
                 fire = Input.GetMouseButton(0) && !reload ? true : false;
-                reload = Input.GetKey(KeyCode.R) && CanReload() || currentWeaponMagAmmo <= 0 && CanReload();
+                reload =reload? reload: Input.GetKey(KeyCode.R) && CanReload() || currentWeaponMagAmmo <= 0 && CanReload();
             }
         }
 
@@ -318,6 +320,8 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(camera.position, camera.forward, out RaycastHit interactHit, 2))
         {
+            frontWallCollsion = interactHit.distance < 1f ? true : false;
+
             crossHair.CanInteract = interactHit.transform.tag == "Interactive";
             currentInteractiveItem = interactHit.transform.GetComponent<InteractiveItem>();
 
@@ -348,6 +352,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            frontWallCollsion = false;
             scrMsgLine.weaponName = "Empty";
             crossHair.CanInteract = false;
             currentInteractiveItem = null;

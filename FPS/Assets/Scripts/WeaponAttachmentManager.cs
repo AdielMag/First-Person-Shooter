@@ -46,7 +46,8 @@ public class WeaponAttachmentManager : MonoBehaviour
 
     public void OpenOrCloseAttachmentMenu()
     {
-        if (pCon.currentWeapon.transform.GetChild(pCon.currentWeapon.transform.childCount - 1).gameObject.activeSelf)
+        // if (pCon.currentWeapon.transform.GetChild(pCon.currentWeapon.transform.childCount - 1).gameObject.activeSelf)
+        if (!pCon.attachmentMenu)
             StartCoroutine(CloseAndWaitAtttachmentMenu());
         else
             OpenAttachmentMenu();
@@ -73,7 +74,7 @@ public class WeaponAttachmentManager : MonoBehaviour
             attachmentButtons[i].SetTrigger("FadeOut");
         }
 
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.3f);
         pCon.currentWeapon.transform.GetChild(pCon.currentWeapon.transform.childCount - 1).gameObject.SetActive(false);
         yield break;
     }
