@@ -36,7 +36,8 @@ public class AttachmentButton : MonoBehaviour
             // Disable all other attachments of this type.
             foreach (Transform attachmentObj in attachment.transform.parent)
             {
-                attachmentObj.gameObject.SetActive(false);
+                if (attachmentObj != attachment.transform.parent.GetChild(0) || attachmentType != AttachmentType.Scope)
+                    attachmentObj.gameObject.SetActive(false);
             }
             // Turn all animator controlles bool off.
             foreach (Transform attachmentObj in transform.parent)
