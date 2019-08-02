@@ -87,13 +87,13 @@ MonoBehaviour:
     value: 0
   colorFilter:
     overrideState: 1
-    value: {r: 1, g: 1, b: 1, a: 1}
+    value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   hueShift:
     overrideState: 1
     value: 0
   saturation:
     overrideState: 1
-    value: 0
+    value: -20
   brightness:
     overrideState: 1
     value: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
     value: 0
   contrast:
     overrideState: 1
-    value: 0
+    value: 12
   mixerRedOutRedIn:
     overrideState: 1
     value: 100
@@ -132,13 +132,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 1, y: 1, z: 1, w: -0.11527379}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 1, y: 1, z: 1, w: 0.23054758}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 1, y: 1, z: 1, w: -0.11527376}
   masterCurve:
     overrideState: 1
     value:
@@ -1355,7 +1355,7 @@ MonoBehaviour:
   - {fileID: -7501349130043827056}
   - {fileID: -7225258106769688220}
   - {fileID: 1403508127732894800}
-  - {fileID: 7892313277551867691}
+  - {fileID: 5388489157006216554}
 --- !u!114 &1403508127732894800
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1374,13 +1374,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 10
+    value: 15
   threshold:
     overrideState: 1
-    value: 1.17
+    value: 1.2
   softKnee:
     overrideState: 1
-    value: 0
+    value: 0.63
   clamp:
     overrideState: 0
     value: 65470.25
@@ -1403,7 +1403,7 @@ MonoBehaviour:
   dirtIntensity:
     overrideState: 0
     value: 0
---- !u!114 &7892313277551867691
+--- !u!114 &5388489157006216554
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1415,13 +1415,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   shutterAngle:
     overrideState: 1
-    value: 80
+    value: 235
   sampleCount:
     overrideState: 1
-    value: 6
+    value: 20
