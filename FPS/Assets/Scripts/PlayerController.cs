@@ -279,6 +279,8 @@ public class PlayerController : MonoBehaviour
                 objPooler.SpawnFromPool("UI Hit Mark", playerCamera.WorldToScreenPoint(hit.point)
                 + transform.up * hitmarkOffset.y + transform.right * hitmarkOffset.x, Quaternion.identity);
         }
+
+        UIManager.instance.SetAmmoCounter(currentWeapon.mainWeapon, currentWeaponMagAmmo, reservedAmmo);
     }
 
     bool CanReload()
@@ -301,8 +303,11 @@ public class PlayerController : MonoBehaviour
         reservedAmmo = currentWeapon.reserveAmmo = reservedAmmo - missingAmmo;
         if (reservedAmmo < 0) reservedAmmo = 0;
 
+        UIManager.instance.SetAmmoCounter(currentWeapon.mainWeapon, currentWeaponMagAmmo, reservedAmmo);
+
         anim.SetBool("NoAmmo", false);
         reload = false;
+
     }
 
     private void CrossHairAndInteractiveItems()
@@ -365,6 +370,8 @@ public class PlayerController : MonoBehaviour
         if (currentWeapon == weapons[currentInteractiveItem.weaponNumTag - 1].GetComponent<Weapon>())
             reservedAmmo += 30;
 
+        UIManager.instance.SetAmmoCounter(currentWeapon.mainWeapon, currentWeaponMagAmmo, reservedAmmo);
+
         currentInteractiveItem.gameObject.SetActive(false);
     }
 
@@ -413,6 +420,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("NoAmmo", currentWeaponMagAmmo == 0 ? true : false);
         reload = false;
 
+        UIManager.instance.SetWeaponsIcons(weaponNumTag + 1, currentWeapon.mainWeapon ? secondaryWeapon : mainWeapon);
+        UIManager.instance.SetAmmoCounter(currentWeapon.mainWeapon, currentWeaponMagAmmo, reservedAmmo);
     }
     public void SheathWeapon(int weaponNumTag)
     {

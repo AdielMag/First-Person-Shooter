@@ -1,0 +1,195 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d41887b1546f5c44ab54e7e65aad3bc, type: 3}
+  m_Name: Comb Material
+  m_EditorClassIdentifier: 
+  version: 3252
+  materialsAndUVRects:
+  - material: {fileID: 2100000, guid: 60d108c1758e69f4b9a274acaffda3f2, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.00024414062
+      y: 0.00024414062
+      width: 0.25
+      height: 0.25
+    srcObjName: SM_Env_Pillar_Exterior_03
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: 57607dbd191b4da4283cc5af8b598aeb, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.25073242
+      y: 0.00024414062
+      width: 0.25
+      height: 0.25
+    srcObjName: SM_Env_Floor_29
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: 43661ff2635bdc947b87d5d0f816367e, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.751709
+      y: 0.00024414062
+      width: 0.00048828125
+      height: 0.00048828125
+    srcObjName: SM_Env_Ceiling_Light_03
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: 1c8e4d2529a740d408943d56a4e8506e, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.5012207
+      y: 0.00024414062
+      width: 0.25
+      height: 0.25
+    srcObjName: SM_Prop_Sign_Money_Bank_01
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: 07b7aeefc2c8c004ba19ede47948d636, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.00024414062
+      y: 0.25073242
+      width: 0.25
+      height: 0.25
+    srcObjName: SM_Prop_Couch_05
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: bd0bc8c231660a549be135327b1cc186, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.00024414062
+      y: 0.5012207
+      width: 0.25
+      height: 0.25
+    srcObjName: SM_Prop_TellerDesk_01
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  resultMaterials:
+  - combinedMaterial: {fileID: 2100000, guid: cdf5df1b72695634cae6e5f2f796c3b0, type: 2}
+    considerMeshUVs: 0
+    sourceMaterials:
+    - {fileID: 2100000, guid: 60d108c1758e69f4b9a274acaffda3f2, type: 2}
+    - {fileID: 2100000, guid: 57607dbd191b4da4283cc5af8b598aeb, type: 2}
+    - {fileID: 2100000, guid: 43661ff2635bdc947b87d5d0f816367e, type: 2}
+    - {fileID: 2100000, guid: 1c8e4d2529a740d408943d56a4e8506e, type: 2}
+    - {fileID: 2100000, guid: 07b7aeefc2c8c004ba19ede47948d636, type: 2}
+    - {fileID: 2100000, guid: bd0bc8c231660a549be135327b1cc186, type: 2}
+  doMultiMaterial: 0
